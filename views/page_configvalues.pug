@@ -1,0 +1,66 @@
+div(class='config-group')
+  div(class='form-group row ng-scope' ng-repeat='config in $ctrl.configInfo')
+    // Input String:
+    div(ng-if='config.type == "string"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+      input(id='{{$ctrl.prefixId}}_{{config.key}}' type='text' class='form-control width-control'
+          ng-model='$ctrl.configValues[config.key]' ng-pattern='config.regex'
+          ng-required='config.required == "true"'
+          data-placement="bottom" title="{{config.constraints}}" date-toggle="tooltip" tooltip)
+
+    // Input Int:
+    div(ng-if='config.type == "int"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+      input(id='{{$ctrl.prefixId}}_{{config.key}}' type='number' class='form-control width-control'
+          string-to-int ng-model='$ctrl.configValues[config.key]' step='1' min='{{config.min}}' max='{{config.max}}' ng-pattern='/^-?[0-9]+$/'
+          data-placement='bottom' title='{{$ctrl.getHint("integer", config)}}' date-toggle="tooltip" tooltip)
+
+    // Input Float:
+    div(ng-if='config.type == "float"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+      input(id='{{$ctrl.prefixId}}_{{config.key}}' type='number' class='form-control width-control'
+          string-to-float ng-model='$ctrl.configValues[config.key]' step='{{config.step}}' min='{{config.min}}' max='{{config.max}}'
+          data-placement='bottom' title='{{$ctrl.getHint("number", config)}}' date-toggle="tooltip" tooltip)
+
+
+    // Input Password:
+    div(ng-if='config.type == "password"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+      input(id='{{$ctrl.prefixId}}_{{config.key}}' type='password' class='form-control width-control'
+          ng-model='$ctrl.configValues[config.key]')
+
+    // Input Boolean:
+    div(ng-if='config.type == "boolean"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}')
+        input(id='{{$ctrl.prefixId}}_{{config.key}}' type='checkbox'
+            ng-model='$ctrl.configValues[config.key]' string-to-bool)
+        | &nbsp; {{config.title}}
+
+
+    // Input Dropdown:
+    div(ng-if='config.type == "dropdown"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+          select(id='{{$ctrl.prefixId}}_{{config.key}}' class='c-select'
+              ng-model='$ctrl.configValues[config.key]')
+            option(ng-repeat='option in config.options' value='{{option.value}}') {{option.title}}
+
+
+    // Input dynamic Dropdown:
+    div(ng-if='config.type == "dyn-dropdown"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+        dyn-select(id='{{$ctrl.prefixId}}_{{config.key}}' config-key='{{config.key}}' module='{{$ctrl.module}}' start-value="{{$ctrl.configValues[config.key]}}" on-change='$ctrl.setValue(key, value)')
+
+
+    // Input areapicker:
+    div(ng-if='config.type == "areapicker"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+        area-picker(id='{{$ctrl.prefixId}}_{{config.key}}' config-key='{{config.key}}' module='{{$ctrl.module}}' start-value="{{$ctrl.configValues[config.key]}}" on-change='$ctrl.setValue(key, value)')
+
+
+    // Input variable dropdown:
+    div(ng-if='config.type == "var-file-dropdown"')
+      label(for='{{$ctrl.prefixId}}_{{config.key}}') {{config.title}}
+      br
+      vars-select(id='{{$ctrl.prefixId}}_{{config.key}}' config-key='{{config.key}}' start-value="{{$ctrl.configValues[config.key]}}" on-change='$ctrl.setValue(key, value)' vars='$ctrl.vars' type='file')
+
+    small(class='text-muted') {{config.description}}

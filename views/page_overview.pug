@@ -1,0 +1,76 @@
+h1 Overview
+hr
+h2 System
+p System status: &nbsp;
+  span(class='label label-pill label-success' ng-show='ovwCtrl.systemStatus.running === true') Running
+  span(class='label label-pill label-danger' ng-show='ovwCtrl.systemStatus.running === false') Stopped
+  span(class='label label-pill label-default' ng-show='ovwCtrl.systemStatus.running === undefined') Unknown
+  span(class='label label-pill label-warning' ng-show='ovwCtrl.systemStatus.failed') Forced stop
+button(type='button' class='btn btn-danger' ng-click='ovwCtrl.controlSystem("stop")'
+       ng-show='ovwCtrl.systemStatus.running === true'
+       ng-disabled='ovwCtrl.reloadingStatus || ovwCtrl.controlDisabled')
+  i(class='fa fa-stop' aria-hidden='true')
+  |  Stop
+button(type='button' class='btn btn-success' ng-click='ovwCtrl.controlSystem("start")'
+       ng-show='ovwCtrl.systemStatus.running === false'
+       ng-disabled='ovwCtrl.reloadingStatus || ovwCtrl.controlDisabled')
+  i(class='fa fa-play' aria-hidden='true')
+  |  Start
+button(type='button' class='btn btn-primary' ng-click='ovwCtrl.controlSystem("restart")'
+       ng-disabled='ovwCtrl.reloadingStatus || ovwCtrl.controlDisabled')
+  i(class='fa fa-repeat' aria-hidden='true')
+  |  Restart
+hr
+
+hooks(hook-loc='overview')
+
+hr
+
+h2 Installed modules
+.table-responsive
+  table(class='table table-hover table-striped')
+    tr(class='head-line-left')
+      td(colspan='4')
+        i(class='fa fa-eye icon-left fa-2x' aria-hidden='tue')
+          h3(class='text-right') Event Modules
+    tr
+      th(class='hidden-sm-down') ID
+      th Name
+      th(class='hidden-sm-down') Description
+      th Interaction
+    tr(ng-repeat='module in ovwCtrl.modules.list | moduleType:"events"')
+      td(class='hidden-sm-down') {{module.id}}
+      td {{module.info.name}}
+      td(class='hidden-sm-down') {{module.info.description}}
+      td
+        button(type='button' class='btn btn-secondary' ng-click="ovwCtrl.openModulePage(module.id)") Show details
+    tr(class='head-line-left')
+      td(colspan='4')
+        i(class='fa fa-bell icon-left fa-2x' aria-hidden='tue')
+          h3(class='text-right') Action Modules
+    tr
+      th(class='hidden-sm-down') ID
+      th Name
+      th(class='hidden-sm-down') Description
+      th Interaction
+    tr(ng-repeat='module in ovwCtrl.modules.list | moduleType:"actions"')
+      td(class='hidden-sm-down') {{module.id}}
+      td {{module.info.name}}
+      td(class='hidden-sm-down') {{module.info.description}}
+      td
+        button(type='button' class='btn btn-secondary' ng-click="ovwCtrl.openModulePage(module.id)") Show details
+    tr(class='head-line-left')
+      td(colspan='4')
+        i(class='fa fa-server icon-left fa-2x' aria-hidden='tue')
+          h3(class='text-right') Service Modules
+    tr
+      th(class='hidden-sm-down') ID
+      th Name
+      th(class='hidden-sm-down') Description
+      th Interaction
+    tr(ng-repeat='module in ovwCtrl.modules.list | moduleType:"none"')
+      td(class='hidden-sm-down') {{module.id}}
+      td {{module.info.name}}
+      td(class='hidden-sm-down') {{module.info.description}}
+      td
+        button(type='button' class='btn btn-secondary' ng-click="ovwCtrl.openModulePage(module.id)") Show details

@@ -1,0 +1,274 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+@import '../../node_modules/bootstrap/scss/_variables.scss';
+@import '../../node_modules/bootstrap/scss/mixins/_breakpoints.scss';
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #444444;
+}
+
+.navbar {
+  border-radius: 0;
+  padding: 0;
+  min-height: 3.5rem;
+
+  .container {
+    padding: 0.5rem 1rem;
+
+    position: relative;
+
+    .loading-icon {
+      position: absolute;
+      top: 0;
+      left: 0.5rem;
+
+      padding-top: 0.75rem;
+
+      @include media-breakpoint-up(md) {
+        margin-left: -1.25rem;
+      }
+
+      font-size: 1.25rem;
+
+      width: 1.5rem;
+    }
+
+    .navbar-toggle {
+      float: right;
+
+      display: none;
+
+      @include media-breakpoint-down(sm) {
+        display: block;
+      }
+    }
+
+    #navbar {
+      @include media-breakpoint-up(md) {
+        display: block !important;
+        height: auto !important;
+        padding-bottom: 0;
+        overflow: visible !important;
+      }
+
+      @include media-breakpoint-down(sm) {
+        .nav-item, .navbar-brand {
+          float: none;
+          display: block;
+
+          margin: 0rem 0rem 1rem 1.5rem;
+        }
+      }
+    }
+
+    .apply-nav {
+      float: right;
+
+      .apply-changes {
+        @include media-breakpoint-down(md) {
+          margin-right: 1rem;
+        }
+
+        .nav-link, .nav-link:hover {
+          color: #5cb85c;
+          float: left;
+
+          @include media-breakpoint-down(md) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .navbar-brand {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .navbar-brand.active, .nav-item.active {
+    color: rgba(255, 255, 255, 1.0);
+  }
+
+  .logout {
+    margin-left: 1rem;
+  }
+
+  .dropdown-menu {
+    text-align: center;
+  }
+}
+
+.navbar-spacing {
+  height: 3.5rem;
+}
+
+.error {
+  margin-top: 1rem;
+}
+
+.view-animate {
+  -webkit-transition: 0.5s ease-in-out all;
+  transition: 0.5s ease-in-out all;
+
+  opacity: 1;
+
+  &.ng-enter {
+    opacity: 0;
+  }
+  &.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+  &.ng-leave {
+    display: none;
+  }
+}
+
+.error-animate {
+  -webkit-transition: 0.25s ease-in-out all;
+  transition: 0.25s ease-in-out all;
+
+  margin-top: 0;
+
+  &.ng-show {
+    margin-top: 0;
+  }
+  &.ng-show.ng-show-active {
+    margin-top: -3rem;
+  }
+  &.ng-hide {
+    margin-top: -3rem;
+  }
+}
+
+.fade-animate {
+  -webkit-transition: 0.25s ease-in-out all;
+  transition: 0.25s ease-in-out all;
+
+  opacity: 1;
+
+  &.ng-show {
+    opacity: 1;
+  }
+  &.ng-show.ng-show-active {
+    opacity: 0;
+  }
+  &.ng-hide {
+    opacity: 0;
+  }
+}
+
+.onoffswitch {
+  position: relative;
+  width: 3.5rem;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+  font-size: 1.5rem;
+
+  margin: 0.025em 0.2em 0.025em 0;
+
+  &.right {
+    float: right;
+
+    & + div {
+      clear: both;
+    }
+  }
+
+  &-checkbox {
+    display: none;
+
+    &:checked + .onoffswitch-label {
+      background-color: #5cb85c;
+    }
+    &:checked + .onoffswitch-label, &:checked + .onoffswitch-label:before {
+       border-color: #5cb85c;
+    }
+    &:checked + .onoffswitch-label:before {
+        right: 0px;
+    }
+  }
+  &-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+
+    height: 1.25em;
+    margin: 0;
+    padding: 0;
+
+    line-height: 1.25em;
+
+    border: 2px solid #999999;
+    border-radius: 1.25em;
+
+    background-color: #FFFFFF;
+    transition: background-color 0.3s ease-in;
+
+    &:before {
+      content: "";
+      display: block;
+
+      width: 1.25em;
+      margin: 0px;
+
+      background: #F2F2F2;
+      position: absolute; top: 0; bottom: 0;
+      right: calc(1.25em - 2px);
+
+      border: 2px solid #999999;
+      border-radius: 1.25em;
+
+      transition: all 0.3s ease-in 0s;
+    }
+  }
+}
+
+hook {
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.single-hook, .single-hook hook {
+  margin: 0;
+}
+
+.form-group {
+  margin: 2rem 0 2rem 0;
+}
+
+
+.top_login_field {
+  border-bottom-left-radius: 0px;
+}
+
+.bottom_login_field {
+  border-top-left-radius: 0px;
+}
+
+.bottom-field {
+  padding-bottom: 10px;
+}
+
+.setting-error-field {
+  margin-top: 10px;
+  color: #a94442;
+  border-radius: 2px;
+}
+
+.loginSet-invalid {
+  border-color: #a94442;
+}
+
+.footer {
+  margin: 1rem 0 3rem 0;
+  text-align: center;
+}
+
+@import '_login.scss';
+
+@import '_overview.scss';
+@import '_rules.scss';
+@import '_module.scss';
+@import '_config.scss';
+
+@import '_jcrop.scss';

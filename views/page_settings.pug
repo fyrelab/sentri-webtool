@@ -1,0 +1,22 @@
+div(class='container')
+  form(name='settingInputForm' class=error ? 'login-form form-error' : 'login-form' method='post' action='/settings')
+    h2 Change Credentials
+    p= error
+    div(class='input-group')
+      div(class='input-group-addon top_login_field')
+        i(class='fa fa-user fa-fw')
+      input(type='text' class='form-control input-user' ng-class="{'loginSet-invalid':settingInputForm.user.$invalid}" name='user' ng-model="stgCtrl.user" ng-pattern='/^[a-zA-Z0-9]*$/' required)
+    div(class='input-group bottom-field')
+      div(class='input-group-addon bottom_login_field')
+        i(class='fa fa-key fa-fw')
+      input(type='password' name='password' class='form-control input-password' ng-class="{'loginSet-invalid':settingInputForm.password.$invalid}" ng-model="text" ng-minlength='5' placeholder='Password' required)
+    p Email address for user login reset:
+    div(class='input-group')
+      div(class='input-group-addon')
+        i(class='fa fa-user fa-envelope')
+      input(type='email' name='email' class='form-control input-email' ng-class="{'loginSet-invalid':settingInputForm.email.$invalid}" ng-model="stgCtrl.email" required)
+
+    .setting-error-field
+      p(ng-show='settingInputForm.user.$invalid && !(settingInputForm.user.$error.required)') The username must not contain special characters and umlauts
+      p(ng-show='settingInputForm.password.$invalid && !(settingInputForm.password.$error.required)') The password has to be at least 5 characters long
+    button(class='btn btn-lg btn-primary btn-block' ng-disabled='settingInputForm.$invalid') Apply changes

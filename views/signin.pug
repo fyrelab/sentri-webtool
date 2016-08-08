@@ -1,0 +1,19 @@
+extends ./layout.pug
+
+block content
+  // Sign in
+  div(class='container')
+    form(class=errors.length > 0 ? 'login-form form-error' : 'login-form' method='post')
+      img(src='/static/images/logo_big.png' class='logo' alt='fyrelab sentri' title='fyrelab sentri')
+      each err in errors
+        p= err.message
+      div(class='input-group')
+        div(class='input-group-addon top_login_field')
+          i(class='fa fa-user fa-fw')
+        input(type='text' class='form-control input-user' name='user' placeholder='Username' spellcheck='off' autocorrect='off' autocapitalize='off')
+      div(class='input-group')
+        div(class='input-group-addon bottom_login_field')
+          i(class='fa fa-key fa-fw')
+        input(type='password' class='form-control input-password' name='password' placeholder='Password')
+      button(class='btn btn-lg btn-primary btn-block') Sign in
+      a(href='/reset') Forgot login?

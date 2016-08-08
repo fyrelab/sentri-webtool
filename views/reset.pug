@@ -1,0 +1,21 @@
+extends ./layout.pug
+
+block content
+  // Reset password
+  div(class='container')
+    form(class=errors.length > 0 ? 'login-form form-error' : 'login-form' method='post')
+      h2 User login reset
+      each err in errors
+        p= err.message
+      p Please enter the email address that you set in the configuration
+      div(class='input-group')
+        div(class='input-group-addon top_login_field')
+          i(class='fa fa-envelope')
+        input(type='email' class='form-control input-email' name='email' placeholder='Email address' spellcheck='off' autocorrect='off' autocapitalize='off')
+      button(class='btn btn-lg btn-primary btn-block') Submit
+
+    div(class='footer')
+
+    // Javascript dependencies
+    each dep in jsDependencies
+      script(src=dep)

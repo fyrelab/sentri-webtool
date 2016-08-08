@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title= title
+
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(http-equiv='x-ua-compatible' content='ie=edge')
+    base(href='/')
+
+    link(rel='icon' href='/static/images/favicon.png')
+
+    // Stylesheets
+    link(rel='stylesheet' href='/static/ext/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet' href='/cache/css/main.css')
+    link(rel='stylesheet' href='/static/ext/font-awesome/css/font-awesome.min.css')
+    block header
+
+  body(ng-app=angularApp)
+    block content
+
+    // Javascript dependencies
+    each dep in jsDependencies
+      script(src=dep.src)

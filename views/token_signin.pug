@@ -1,0 +1,15 @@
+extends ./layout.pug
+
+block content
+  // Token login
+  div(class='container')
+    form(class=errors.length > 0 ? 'login-form form-error' : 'login-form' method='post')
+      h2 Login with token
+      each err in errors
+        p= err.message
+      p Please enter the token that you received in your email
+      div(class='input-group')
+        div(class='input-group-addon top_login_field')
+          i(class='fa fa-envelope')
+        input(type='password' class='form-control input-email' name='token' placeholder='Authentication token' spellcheck='off' autocorrect='off' autocapitalize='off')
+      button(class='btn btn-lg btn-primary btn-block') Submit

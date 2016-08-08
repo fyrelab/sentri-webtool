@@ -1,0 +1,11 @@
+h1 Configuration: {{modConfCtrl.module.info.name}}
+div(class='config-group')
+  form(name='moduleConfigForm' ng-submit='moduleConfigForm.$valid && modConfCtrl.applySettings()' novalidate)
+    config(config-info='modConfCtrl.module.info.configuration' config-values='modConfCtrl.config' prefix-id='"config"' module='{{modConfCtrl.module.id}}')
+
+    .buttons-container
+      button(type="button" class="btn btn-warning-outline" ng-click='modConfCtrl.loadConfig()') Reset
+      span(ng-if='moduleConfigForm.$invalid' data-placement="bottom" title="Form is invalid" date-toggle="tooltip" tooltip)
+        button(type='submit' class='btn btn-primary disabled') Save
+      span(ng-if='moduleConfigForm.$valid')
+        button(type='submit' class='btn btn-primary') Save

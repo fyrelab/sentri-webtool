@@ -1,0 +1,45 @@
+extends ./layout.pug
+
+block header
+  link(rel='stylesheet' href='/static/ext/video.js/dist/video-js.min.css')
+  link(rel='stylesheet' href='/static/ext/bootstrap-multiselect/dist/css/bootstrap-multiselect.css')
+
+block content
+  // Navigation
+  nav(class='navbar navbar-fixed-top navbar-dark bg-inverse' ng-controller='NavigationController as navCtrl')
+    div(class='container')
+      button(type='button' class='btn btn-secondary-outline navbar-toggle collapsed' data-toggle='collapse'
+             data-target='#navbar' aria-expanded='false' aria-controls='navbar')
+        i(class='fa fa-bars')
+      .loading-icon(ng-controller='LoadingController as ldCtrl')
+        i(class='fa fa-refresh fa-spin fade-animate' ng-show='ldCtrl.loading')
+      div(id='navbar' class='collapse navbar-collapse')
+        a(class='navbar-brand' ng-href='{{navCtrl.items[0].url}}'
+          data-toggle='collapse' data-target='#navbar'
+          ng-class='{active: navCtrl.isActive(0)}') {{navCtrl.items[0].title}}
+        ul(class='nav navbar-nav collapse-nav')
+          li(class='nav-item' ng-repeat='item in navCtrl.items'
+             data-toggle='collapse' data-target='#navbar'
+             ng-if='!$first' ng-class='{active: navCtrl.isActive($index)}')
+            a(class='nav-link' ng-href='{{item.url}}')
+              i(ng-class='item.icon' ng-if='item.icon')
+              | {{item.title}}
+      ul(class='nav navbar-nav apply-nav')
+        li(class='nav-item apply-changes fade-animate ng-hide' ng-show='navCtrl.lockStatus == "locked"')
+          .nav-link System has unapplied changes &nbsp;
+          button(class='btn btn-success-outline' ng-click='navCtrl.applyChanges()') Apply all changes
+  .navbar-spacing
+  // Error handling
+  div(ng-controller='ErrorController as errCtrl' class='container error')
+    div(class='alert alert-danger ng-hide error-animate' role='alert' ng-show="errCtrl.errors.length > 0")
+      div(class='container')
+        strong Error: &nbsp;
+        span(ng-repeat='error in errCtrl.errors') {{error.message}} &nbsp;
+
+  // Content
+  div(class='container')
+    div(class='view-animate' ng-view)
+
+  div(class='footer')
+    div(class='container')
+      a(href='https://fyrelab.de/sentri/manual' target='_blank') Manual

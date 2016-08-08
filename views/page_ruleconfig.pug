@@ -1,0 +1,115 @@
+h1 Edit Rule: {{ruleConfCtrl.rule.title}}
+.onoffswitch(class='right')
+  input(type='checkbox' class='onoffswitch-checkbox' id='rule-on-off' ng-model='ruleConfCtrl.rule.constraints.is_disabled' inverted)
+  label(class='onoffswitch-label' for="rule-on-off")
+
+// Title input
+form(name='ruleConfigForm' ng-submit='ruleConfigForm.$valid && ruleConfCtrl.applySettings()' novalidate)
+  div(class='config-group')
+    label(for='title') Title
+    input(name='title' type='text' class='form-control' id='title' ng-model='ruleConfCtrl.rule.title' required
+        data-placement="bottom" title="A title is required" date-toggle="tooltip" tooltip
+        unique-rule-name='ruleConfCtrl.id' rules-array='ruleConfCtrl.rules')
+    div(class="alert alert-danger" role="alert" ng-if='ruleConfigForm.title.$error.uniqueRuleName')
+      | This rule title is already given
+
+
+  .rule-box.extended
+    .rule-content
+
+      // Event Config
+      .left
+        .config-group
+          h2(class='m-t') Event
+
+          // Event Module
+          div(class='config-group row')
+            .col-lg-2.col-md-2.col-sm-3
+                label(for='event_module' class='form-control-label select-label') Modul
+            .col-lg-10.col-md-10.col-sm-9
+              select(class='c-select' id='event_module' ng-model='ruleConfCtrl.rule.event.module' ng-change='ruleConfCtrl.loadEventModule()' required)
+                option(ng-repeat='module in ruleConfCtrl.modules.list' ng-if='module.info.events.length > 0' value='{{module.info.id}}') {{module.info.name}}
+          // Event Key
+          div(class='config-group row' ng-if='ruleConfCtrl.rule.event.module')
+            .col-lg-2.col-md-2.col-sm-3
+              label(for='event_key' class='form-control-label') Event
+            .col-lg-10.col-md-10.col-sm-9
+              select(class='c-select' id='event_key' ng-model='ruleConfCtrl.rule.event.key' ng-change='ruleConfCtrl.loadEvent()' required)
+                option(ng-repeat='event in ruleConfCtrl.eventModule.info.events' value='{{event.key}}') {{event.title}}
+
+          // Event Configuration
+          h3(ng-show='ruleConfCtrl.event.configuration.length > 0') Configuration
+          div(class='config-group')
+            config(config-info='ruleConfCtrl.event.configuration' config-values='ruleConfCtrl.eventConfig' prefix-id='"event"' module='{{ruleConfCtrl.rule.event.module}}' vars='ruleConfCtrl.event.vars')
+
+      // Constraints
+      .middle
+        .config-group
+          h2 Constraints
+          div(class='config-group')
+            div(class='config-group')
+              label(for='constraints_fire_limit') Fire limit
+              input(id='constraints_fire_limit' type='number' class='form-control width-control'
+                  ng-model='ruleConfCtrl.rule.constraints.fire_limit' step='1' min='0'
+                  data-placement="bottom" title='Must be a number greater than or equal to 0' date-toggle="tooltip" tooltip)
+              small(class='text-muted') How often the rule will be triggered at max
+
+
+      // Action Config
+      .right
+        .config-group
+          h2 Action
+          // Action Module
+          div(class='config-group row')
+            .col-lg-2.col-md-2.col-sm-3
+              label(for='action-module' class='form-control-label') Modul
+            .col-lg-10.col-md-10.col-sm-9
+              select(class='c-select' id='action-module' ng-model='ruleConfCtrl.rule.action.module' ng-change='ruleConfCtrl.loadActionModule()' required)
+                option(ng-repeat='module in ruleConfCtrl.modules.list' ng-if='module.info.actions.length > 0' value='{{module.info.id}}') {{module.info.name}}
+          // Action Key
+          div(class='config-group row' ng-if='ruleConfCtrl.rule.action.module')
+            .col-lg-2.col-md-2.col-sm-3
+              label(for='action-key' class='form-control-label') Action
+            .col-lg-10.col-md-10.col-sm-9
+              select(class='c-select' id='action-key' ng-model='ruleConfCtrl.rule.action.key' ng-change='ruleConfCtrl.loadAction()' required)
+                option(ng-repeat='action in ruleConfCtrl.actionModule.info.actions' value='{{action.key}}') {{action.title}}
+
+
+          // Action Configuration
+          h3(ng-show='ruleConfCtrl.action.configuration.length > 0') Configuration
+          div(class='config-group')
+            config(config-info='ruleConfCtrl.action.configuration' config-values='ruleConfCtrl.actionConfig' prefix-id='"action"' module='{{ruleConfCtrl.rule.action.module}}' vars='ruleConfCtrl.event.vars')
+
+          // Vars provided by the event module
+          .jumbotron
+            h3(ng-show='ruleConfCtrl.event.vars.length > 0')
+              i(class="fa fa-info-circle" aria-hidden="true")
+              | &nbsp; Variables provided by the event
+            .config-group
+              p(ng-repeat='var in ruleConfCtrl.event.vars')
+                strong {{var.key}}:
+                | &nbsp; {{var.description}}
+
+  // Buttons
+  .buttons-container
+    button(type='button' class='btn btn-danger' data-toggle="modal" data-target="#deleteModal" ng-if='ruleConfCtrl.id != "new"')
+      i(class='fa fa-times' aria-hidden='true')
+      | &nbsp; Delete
+    button(type='button' class='btn btn-warning-outline' ng-click='ruleConfCtrl.loadRule()') Reset
+    span(ng-if='ruleConfigForm.$invalid' data-placement="bottom" title="Form is invalid" date-toggle="tooltip" tooltip)
+      button(type='submit' class='btn btn-primary disabled') Save
+    span(ng-if='ruleConfigForm.$valid')
+      button(type='submit' class='btn btn-primary') Save
+
+
+div(id='deleteModal' class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true")
+      div(class="modal-dialog modal-sm")
+        div(class="modal-content")
+          div(class="modal-header")
+            button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+              span(aria-hidden="true") &times;
+            h4(class="modal-title" id="deleteModalLabel") Delete rule
+            div(class="modal-body") Are you sure that you want to delete the rule?
+            div(class="modal-footer")
+              button(type="button" class="btn btn-secondary" data-dismiss="modal") Abort
+              button(type="button" class="btn btn-danger" data-dismiss="modal" ng-click='ruleConfCtrl.deleteRule()') Delete rule

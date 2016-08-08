@@ -1,0 +1,72 @@
+h1 Rules
+
+// Buttons
+
+.text-sm-right(class='hidden-xs-down')
+  button(type='button' class='btn btn-success' ng-click='rlsCtrl.createNewRule()') Create rule
+  p
+  button(type='button' class='btn btn-success btn-sm' ng-click='rlsCtrl.disableAll(false)') Enable all
+  button(type='button' class='btn btn-danger btn-sm' ng-click='rlsCtrl.disableAll(true)') Disable all
+.hidden-sm-up
+  button(type='button' class='btn btn-success btn-block btn-lg' ng-click='rlsCtrl.createNewRule()') Create rule
+  p
+  .row
+    .col-xs-6
+      button(type='button' class='btn btn-success btn-block' ng-click='rlsCtrl.disableAll(false)') Enable all
+    .col-xs-6
+      button(type='button' class='btn btn-danger btn-block' ng-click='rlsCtrl.disableAll(true)') Disable all
+
+.form-group
+  input(ng-model="rlsCtrl.query" class='form-control' placeholder="Search rules")
+
+
+// Rule list
+.rule-box(ng-repeat='(key, rule) in rlsCtrl.rules | filter:rlsCtrl.query' ng-class='{extended: rlsCtrl.extended == key}')
+  .rule-title
+    .toggle-symbol(class='fa' ng-class='rlsCtrl.toggleButton(key)' aria-hidden='true' ng-click='rlsCtrl.toggleRule(key)')
+    | {{rule.title}}
+    .config-box
+      .config-button(class='fa fa-cog' ng-click='rlsCtrl.editRule(rule)')
+      .onoffswitch(class='right')
+        input(type='checkbox' class='onoffswitch-checkbox' id='rule-on-off-{{key}}' ng-model='rule.constraints.is_disabled' ng-change='rlsCtrl.saveRules()' inverted)
+        label(class='onoffswitch-label' for="rule-on-off-{{key}}")
+  .rule-content(ng-click='rlsCtrl.extendRule(key)')
+    .left
+      .title {{rlsCtrl.modules.map[rule.event.module].info.name}}
+      .subtitle {{rlsCtrl.getEventTitle(rule)}}
+      .subtitle(ng-show='rlsCtrl.extended == key') {{rlsCtrl.getEventDescription(rule)}}
+      div(ng-show='rlsCtrl.extended == key' class='config_view')
+        .config_title Rule configuration
+        div(ng-repeat='config in rule.event.configuration | configEventExists:rule:rlsCtrl.modules')
+          .config_line
+            i(class='fa fa-info-circle' aria-hidden='true' required
+                data-placement="right" title='{{rlsCtrl.getEventConfigDescription(rule,config.id)}}' date-toggle="tooltip" tooltip) &nbsp;
+            | <b>{{rlsCtrl.getEventConfigTitle(rule,config.id)}}:</b>
+            | {{config.value}}
+    .middle
+      .title Constraints
+      div(ng-show='rule.constraints.fire_limit > 0')
+        i(class='fa fa-repeat' aria-hidden='true')
+        | &nbsp; Fires every {{rlsCtrl.getTimeFromSeconds(rule.constraints.fire_limit)}} at a max
+      div(ng-show='rule.constraints.is_disabled') Rule is disabled
+      div(ng-hide='rule.constraints.fire_limit > 0 || rule.constraints.is_disabled')
+        i None
+    .right
+      .title {{rlsCtrl.modules.map[rule.action.module].info.name}}
+      .subtitle {{rlsCtrl.getActionTitle(rule)}}
+      .subtitle(ng-show='rlsCtrl.extended == key') {{rlsCtrl.getActionDescription(rule)}}
+      div(ng-show='rlsCtrl.extended == key' class='config_view')
+        .config_title Rule configuration
+        div(ng-repeat='config in rule.action.configuration | configActionExists:rule:rlsCtrl.modules')
+          .config_line
+            i(class='fa fa-info-circle' aria-hidden='true' required
+              data-placement="right" title='{{rlsCtrl.getActionConfigDescription(rule,config.id)}}' date-toggle="tooltip" tooltip) &nbsp;
+            strong {{rlsCtrl.getActionConfigTitle(rule,config.id)}}:&nbsp;
+            | {{config.value}}
+
+
+// Buttons
+div(ng-show='rlsCtrl.rules.length > 0')
+  .text-sm-right(class='hidden-xs-down')
+    button(type='button' class='btn btn-success' ng-click='rlsCtrl.createNewRule()') Create rule
+  button(type='button' class='btn btn-success btn-block btn-lg hidden-sm-up' ng-click='rlsCtrl.createNewRule()') Create rule

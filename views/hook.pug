@@ -1,0 +1,8 @@
+extends ./layout.pug
+
+block header
+  link(rel='stylesheet' href='/static/ext/video.js/dist/video-js.min.css')
+
+block content
+  // Hooks
+  hooks(hook-module=hookModule hook-loc=hookLocation class='single-hook')

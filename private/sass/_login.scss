@@ -1,0 +1,40 @@
+.login-form {
+  &.form-error {
+    input {
+      border-color: #880000;
+      background-color: #FFEEEE;
+    }
+
+    p {
+      color: #880000;
+    }
+  }
+
+  margin: auto;
+  max-width: 20rem;
+  -webkit-border-radius: 0px;
+
+  img.logo {
+    width: 60%;
+    display: block;
+    margin: 1rem auto 1rem auto;
+  }
+
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .input-user {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .input-password {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  button {
+    margin-top: 2rem;
+  }
+}

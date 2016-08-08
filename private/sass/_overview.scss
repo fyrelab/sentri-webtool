@@ -1,0 +1,25 @@
+.btn-secondary {
+  float: right;
+}
+
+.icon-left {
+  float: left;
+}
+
+.text-right {
+  float: right;
+  padding-left: 10px;
+}
+
+.head-line-left {
+  &:first-of-type td {
+    padding-top: 2rem;
+  }
+
+  td {
+    background-color: #FFFFFF;
+    padding-top: 4rem;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 2px solid #CCCCCC;
+  }
+}
